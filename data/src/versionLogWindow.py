@@ -525,7 +525,7 @@ class VersionLogWindow:
     
     def open_official_website(self):
         """打开官方网站"""
-        webbrowser.open("http://pvz.zzjjack.us.kg")
+        webbrowser.open("http://plvz.qzz.io")
     
     def exit_program(self):
         """退出整个进程"""
