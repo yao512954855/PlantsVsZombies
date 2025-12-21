@@ -186,6 +186,9 @@ class Pvz:
 
                 for nut in self.nut_list: # 遍历坚果列表
                     nut.run() # 运行坚果
+
+                for spikeweed in self.spikeweed_list:  # 遍历地刺列表
+                    spikeweed.run()  # 运行地刺
                 
                 for zombie in self.zombie_list:  # 遍历僵尸列表
                     zombie.run()  # 运行僵尸
@@ -213,9 +216,6 @@ class Pvz:
 
                 for jalapeno in self.jalapeno_list:  # 遍历火爆辣椒列表
                     jalapeno.run()  # 运行火爆辣椒
-
-                for spikeweed in self.spikeweed_list:  # 遍历地刺列表
-                    spikeweed.run()  # 运行地刺
                 
                 for growSoil in self.growSoil_list:  # 遍历生长土壤列表
                     growSoil.run()  # 运行生长土壤

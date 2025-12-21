@@ -424,10 +424,9 @@ class Game:
                         zombie.SpikeweedEatTime = 0
                         # 减少僵尸的生命值
                         zombie.hp -= settings[zombie.type]["spikeweed_attack_power"]  
+                        print(zombie.hp)
                         if zombie.hp <= 0:
-                            self.game.zombie_list.remove(zombie)
-                elif not zombie.SpikeweedEatTime == 0:
-                    zombie.SpikeweedEatTime = 0
+                            self.AttackZombie(zombie, 0)
         
         # 处理食人花与僵尸的碰撞(僵尸咬食人花)
         for zombie in self.game.zombie_list:

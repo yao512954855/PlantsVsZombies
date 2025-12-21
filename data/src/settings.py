@@ -87,7 +87,7 @@ settings = {
             "cherry_bomb": 0,     # 樱桃炸弹碰撞检测 X 轴偏移量
             "jalapeno": 0,         # 火爆辣椒碰撞检测 X 轴偏移量
             "squash": -70,           # 倭瓜碰撞检测 X 轴偏移量
-            "spikeweed": -10,      # 地刺碰撞检测 X 轴偏移量
+            "spikeweed": 0,      # 地刺碰撞检测 X 轴偏移量
         },
         # 游戏中会出现的僵尸类型集合
         "zombieType": {
@@ -272,8 +272,8 @@ settings = {
         "headlessImageCount": 18,  # 普通僵尸无头状态图片数量
         "deadPath": "./data/image/Zombie/Zombie/die (%d).png",  # 普通僵尸死亡状态图片路径
         "deadImageCount": 10,  # 普通僵尸死亡状态图片数量
-        "spikeweed_eat_time": 120,  # 普通僵尸吃地刺的时间间隔（帧数）
-        "spikeweed_attack_power": 10,  # 普通僵尸吃地刺的伤害值
+        "spikeweed_eat_time": 120,  # 地刺吃普通僵尸的时间间隔（帧数）
+        "spikeweed_attack_power": 10,  # 地刺吃普通僵尸的伤害值
     },
     # 路障僵尸相关属性设置
     "conehead_zombie": {
@@ -291,8 +291,8 @@ settings = {
         "headlessImageCount": 18,  # 路障僵尸无头状态图片数量
         "deadPath": "./data/image/Zombie/Zombie/die (%d).png",  # 路障僵尸死亡状态图片路径
         "deadImageCount": 10,  # 路障僵尸死亡状态图片数量
-        "spikeweed_eat_time": 120,  # 路障僵尸吃地刺的时间间隔（帧数）
-        "spikeweed_attack_power": 10,  # 路障僵尸吃地刺的伤害值
+        "spikeweed_eat_time": 120,  # 地刺吃路障僵尸的时间间隔（帧数）
+        "spikeweed_attack_power": 5,  # 地刺吃路障僵尸的伤害值
     },
     # 铁桶僵尸相关属性设置
     "buckethead_zombie": {
@@ -310,8 +310,8 @@ settings = {
         "headlessImageCount": 18,  # 铁桶僵尸无头状态图片数量
         "deadPath": "./data/image/Zombie/Zombie/die (%d).png",  # 铁桶僵尸死亡状态图片路径
         "deadImageCount": 10,  # 铁桶僵尸死亡状态图片数量
-        "spikeweed_eat_time": 120,  # 铁桶僵尸吃地刺的时间间隔（帧数）
-        "spikeweed_attack_power": 10,  # 铁桶僵尸吃地刺的伤害值
+        "spikeweed_eat_time": 120,  # 地刺吃铁桶僵尸的时间间隔（帧数）
+        "spikeweed_attack_power": 5,  # 地刺吃铁桶僵尸的伤害值
     },
     # 僵尸头部相关属性设置
     "zombie_head": {
