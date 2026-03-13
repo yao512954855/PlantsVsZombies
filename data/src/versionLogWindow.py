@@ -132,7 +132,12 @@ class VersionLogWindow:
         """检查当前版本是否为最新版本"""
         current = tuple(map(int, GAME_VERSION.split('.')))
         latest = tuple(map(int, self.latest_version.split('.')))
-        return current >= latest
+        if current > latest:
+            return 2
+        elif current == latest:
+            return 1
+        else:
+            return 0
     
     def create_styles(self):
         """创建自定义样式"""
@@ -174,15 +179,18 @@ class VersionLogWindow:
         current_version.pack(side=LEFT, padx=(0, 20))
         
         # 最新版本标签 - 保持原字体大小
-        latest_version_text = f"最新版本: {self.latest_version}"
+        latest_version_text = f"最新正式版本: {self.latest_version}"
         latest_version = Label(left_version_frame, text=latest_version_text, font=(
             "Microsoft YaHei", 10), 
                               bg="#E8F5E9", fg="#2E7D32")
         latest_version.pack(side=LEFT, padx=(0, 20))
         
         # 版本状态标签 - 保持原字体大小
-        if self.is_latest_version():
+        if self.is_latest_version() == 1:
             status_text = "✓ 已是最新版本"
+            status_color = "#4CAF50"
+        elif self.is_latest_version() == 2:
+            status_text = "✓ 检测到为开发版本"
             status_color = "#4CAF50"
         else:
             status_text = "↑ 发现新版本"

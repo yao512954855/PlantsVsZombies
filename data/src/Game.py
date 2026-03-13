@@ -1,3 +1,7 @@
+'''
+游戏主类，负责游戏的初始化和运行
+'''
+
 from data.src._BasicImports import *  # 导入所有需要的模块和常量
 from data.src._GameObjectImports import *  # 导入所有需要的类和函数
 
@@ -311,8 +315,11 @@ class Game:
                 if collision_Pea_add_Zombie_detection(zombie, pea):
                     # 移除被击中的豌豆
                     self.game.pea_list.remove(pea)
-                    # 减少僵尸的生命值，根据僵尸类型设置豌豆伤害
-                    zombie.hp -= settings["game"]["peaAttackPower"][zombie.type] 
+                    # 减少僵尸的生命值，根据豌豆类型及僵尸类型设置僵尸伤害
+                    if pea.isIcePea:
+                        zombie.hp -= settings["game"]["peaAttackPower"]["ice"][zombie.type] 
+                    else:
+                        zombie.hp -= settings["game"]["peaAttackPower"]["common"][zombie.type] 
                     # 如果僵尸生命值小于等于 100 且不是普通僵尸，将其转换为普通僵尸
                     if zombie.hp <= 100 and not zombie.type == "common_zombie":
                         zombie.type = "common_zombie"

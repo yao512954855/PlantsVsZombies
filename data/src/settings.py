@@ -4,9 +4,9 @@ from data.src.const import *
 # 定义一个字典，用于存储游戏中各种元素的属性，后续游戏逻辑会依据这些属性运行
 settings = {
     # 植物名称列表，索引 0 位置为空字符串，后续索引对应不同植物名称
-    "plant_name": ["", "sunflower", "peashooter", "nut", "potato_mine", "chomper", "cherry_bomb", "jalapeno", "squash", "spikeweed"],
+    "plant_name": ["", "sunflower", "peashooter", "nut", "potato_mine", "chomper", "cherry_bomb", "jalapeno", "squash", "spikeweed", "snowPeashooter"],
     # 需要生长土壤的植物
-    "need_grow_soil_plant": ["sunflower", "peashooter", "nut", "potato_mine", "chomper", "squash"],
+    "need_grow_soil_plant": ["sunflower", "peashooter", "nut", "potato_mine", "chomper", "squash", "snowPeashooter"],
     # 植物卡片图片路径列表，索引与 plant_name 列表对应，0 位置为空字符串
     "plant_card_path": ["",
                         "./data/image/PlantCard/Sunflower.png",  # 向日葵卡片图片路径
@@ -18,6 +18,7 @@ settings = {
                         "./data/image/PlantCard/Jalapeno.png",  # 火爆辣椒卡片图片路径
                         "./data/image/PlantCard/Squash.png",    # 倭瓜卡片图片路径
                         "./data/image/PlantCard/Spikeweed.png",  # 地刺卡片图片路径
+                        "./data/image/PlantCard/snowPeashooter.png",  # 寒冰豌豆射手卡片图片路径
                         ],
     # 游戏相关设置
     "game": {
@@ -51,6 +52,7 @@ settings = {
             "jalapeno" : (10, 0),      # 火爆辣椒在网格中的位置偏移
             "squash" : (-2, -100),        # 倭瓜在网格中的位置偏移
             "spikeweed": (2, 60),    # 地刺在网格中的位置偏移
+            "snowPeashooter": (3, 5),  # 寒冰豌豆射手在网格中的位置偏移
         },
         # 鼠标拖动植物时的位置偏移量
         "mousePlantPos":{
@@ -63,6 +65,7 @@ settings = {
             "jalapeno": (-25, -35),    # 拖动火爆辣椒时的位置偏移
             "squash": (-32, -150),      # 拖动倭瓜时的位置偏移
             "spikeweed": (-32, -15),   # 拖动地刺时的位置偏移
+            "snowPeashooter": (-30, -30),  # 拖动寒冰豌豆射手时的位置偏移
         },
         # 植物动画帧切换的时间间隔
         "plantPreIndexTimeNumber":{
@@ -75,6 +78,7 @@ settings = {
             "jalapeno": 0.1,      # 火爆辣椒动画帧切换时间间隔
             "squash": 0.09,        # 倭瓜动画帧切换时间间隔
             "spikeweed": 0.1,     # 地刺动画帧切换时间间隔
+            "snowPeashooter": 0.08,  # 寒冰豌豆射手动画帧切换时间间隔
         },
         # 植物碰撞检测的 X 轴偏移量
         "detectionPlantXPos": {
@@ -88,6 +92,7 @@ settings = {
             "jalapeno": 0,         # 火爆辣椒碰撞检测 X 轴偏移量
             "squash": -70,           # 倭瓜碰撞检测 X 轴偏移量
             "spikeweed": 0,      # 地刺碰撞检测 X 轴偏移量
+            "snowPeashooter": -40,  # 寒冰豌豆射手碰撞检测 X 轴偏移量
         },
         # 游戏中会出现的僵尸类型集合
         "zombieType": {
@@ -103,9 +108,16 @@ settings = {
         },
         # 豌豆射手对不同类型僵尸的攻击力
         "peaAttackPower":{ 
-            "common_zombie": 20, # 对普通僵尸的攻击力
-            "conehead_zombie": 10, # 对路障僵尸的攻击力
-            "buckethead_zombie": 10, # 对铁桶僵尸的攻击力
+            "common":{
+                "common_zombie": 20, # 对普通僵尸的攻击力
+                "conehead_zombie": 10, # 对路障僵尸的攻击力
+                "buckethead_zombie": 10, # 对铁桶僵尸的攻击力
+            },
+            "ice":{
+                "common_zombie": 30, # 对普通僵尸的攻击力
+                "conehead_zombie": 20, # 对路障僵尸的攻击力
+                "buckethead_zombie": 20, # 对铁桶僵尸的攻击力
+            },
         },
         "zombie-burn": { # 僵尸燃烧状态相关设置
             "Path": "./data/image/Zombie/Burn/BoomDie(%d).png",  # 僵尸燃烧状态图片路径
@@ -137,12 +149,21 @@ settings = {
     "peashooter": {
         "name": "peashooter",  # 豌豆射手名称
         "gold": 100,           # 种植豌豆射手所需金币数量
-        "size": (60, 80),  # 豌豆射手显示尺寸
+        "size": (70, 90),  # 豌豆射手显示尺寸
         "path": "./data/image/Plant/Peashooter/Idle%d.png",  # 豌豆射手闲置状态图片路径
         "imageCount": 10,  # 豌豆射手闲置状态图片数量
         "shoot_path": "./data/image/Plant/Peashooter/Shoot%d.png",  # 豌豆射手射击状态图片路径
         "shoot_imageCount": 8,  # 豌豆射手射击状态图片数量
-        "collisionSize": (60, 80),  # 豌豆射手实际碰撞盒尺寸（扣除透明区域）
+        "collisionSize": (70, 90),  # 豌豆射手实际碰撞盒尺寸（扣除透明区域）
+    },
+    # 寒冰豌豆射手相关属性设置
+    "snowPeashooter": {
+        "name": "snowPeashooter",  # 寒冰豌豆射手名称
+        "gold": 175,           # 种植寒冰豌豆射手所需金币数量
+        "size": (70, 70),  # 寒冰豌豆射手显示尺寸
+        "path": "./data/image/Plant/snowPeashooter/snowPeashooter(%d).png",  # 寒冰豌豆射手闲置状态图片路径
+        "imageCount": 15,  # 寒冰豌豆射手闲置状态图片数量
+        "collisionSize": (70, 70),  # 寒冰豌豆射手实际碰撞盒尺寸（扣除透明区域）
     },
     # 向日葵相关属性设置
     "sunflower": {
@@ -362,6 +383,8 @@ settings = {
         "name": "pea",  # 豌豆名称
         "path": "./data/image/Other/Pea.png",  # 豌豆图片路径
         "size": (20, 20),  # 豌豆尺寸
+        "icePeaPath": "./data/image/Other/IcePea.png",  # 寒冰豌豆图片路径
+        "icePeaSize": (50, 50),  # 寒冰豌豆尺寸
     },
     # 铲子相关属性设置
     "shovel": {

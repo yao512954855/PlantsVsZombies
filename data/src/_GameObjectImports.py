@@ -28,3 +28,4 @@ from data.src.Lawnmower import * # 导入草地机类
 from data.src.Squash import * # 导入倭瓜类
 from data.src.GameOverText import * # 导入游戏结束文本类
 from data.src.Spikeweed import * # 导入地刺类
+from data.src.snowPeashooter import * # 导入寒冰豌豆射手类

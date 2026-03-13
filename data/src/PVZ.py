@@ -170,6 +170,9 @@ class Pvz:
                         elif self.plantType == 9: #如果种植的是地刺
                             self.spikeweed_list.append(Spikeweed(self.ObjectGame, self.game.CheckAddPlant(pygame.mouse.get_pos(), self.plantType)['pos']))
                             self.plant = False
+                        elif self.plantType == 10: #如果种植的是寒冰豌豆射手
+                            self.snowPeashooter_list.append(SnowPeashooter(self.ObjectGame, self.game.CheckAddPlant(pygame.mouse.get_pos(), self.plantType)['pos']))
+                            self.plant = False
                         self.game.gold -= settings[settings['plant_name'][self.plantType]]['gold'] # 扣除金币
 
                 for potatoMine in self.potatoMine_list:  # 遍历土豆地雷列表
@@ -180,6 +183,9 @@ class Pvz:
 
                 for peashooter in self.peashooter_list:  # 遍历射手列表
                     peashooter.run()  # 运行射手
+                
+                for snowPeashooter in self.snowPeashooter_list:  # 遍历寒冰豌豆射手列表
+                    snowPeashooter.run()  # 运行寒冰豌豆射手
 
                 for sunflower in self.sunflower_list:  # 遍历阳光花列表
                     sunflower.run()  # 运行阳光花
@@ -275,6 +281,7 @@ class Pvz:
         self.sunflower_list = []  # 阳花列表
         self.sunlight_list = []  # 阳光列表
         self.peashooter_list = []  # 射手列表
+        self.snowPeashooter_list = []  # 寒冰豌豆射手列表
         self.chomper_list = []  # 大嘴花列表
         self.pea_list = []  # 子弹列表
         self.zombieHead_list = []  # 僵尸头列表
