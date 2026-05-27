@@ -1,0 +1,627 @@
+{
+  "basic_zombie": {
+    "name": "basic_zombie",
+    "name_cn": "普通僵尸",
+    "category": "normal",
+    "health": 200,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": null,
+    "first_appearance_level": 1,
+    "description": "最基础的僵尸，缓慢前行",
+    "color": "#556B2F",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "conehead_zombie": {
+    "name": "conehead_zombie",
+    "name_cn": "路障僵尸",
+    "category": "normal",
+    "health": 560,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "路障提供额外护甲",
+    "first_appearance_level": 2,
+    "description": "戴着路障的僵尸，防御力更高",
+    "color": "#FF8C00",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "buckethead_zombie": {
+    "name": "buckethead_zombie",
+    "name_cn": "铁桶僵尸",
+    "category": "normal",
+    "health": 1300,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "铁桶提供高护甲",
+    "first_appearance_level": 4,
+    "description": "戴着铁桶的僵尸，非常耐打",
+    "color": "#708090",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "newspaper_zombie": {
+    "name": "newspaper_zombie",
+    "name_cn": "报纸僵尸",
+    "category": "special",
+    "health": 250,
+    "damage": 25,
+    "speed": 0.2,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "报纸破碎后狂暴加速",
+    "first_appearance_level": 9,
+    "description": "拿着报纸的僵尸，报纸被打烂后会发怒狂奔",
+    "color": "#D2B48C",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "pole_vaulting_zombie": {
+    "name": "pole_vaulting_zombie",
+    "name_cn": "撑杆跳僵尸",
+    "category": "special",
+    "health": 300,
+    "damage": 25,
+    "speed": 0.5,
+    "attack_speed": 1.0,
+    "behavior": "jump",
+    "special_ability": "跳过第一个遇到的植物",
+    "first_appearance_level": 7,
+    "description": "用撑杆跳过植物防线",
+    "color": "#4169E1",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "dancing_zombie": {
+    "name": "dancing_zombie",
+    "name_cn": "舞王僵尸",
+    "category": "special",
+    "health": 500,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "dance",
+    "special_ability": "每走一段距离召唤伴舞僵尸",
+    "first_appearance_level": 15,
+    "description": "召唤四个伴舞僵尸助战",
+    "color": "#FFD700",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "backup_dancer": {
+    "name": "backup_dancer",
+    "name_cn": "伴舞僵尸",
+    "category": "normal",
+    "health": 200,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "由舞王僵尸召唤",
+    "first_appearance_level": 15,
+    "description": "舞王的跟班",
+    "color": "#FFA500",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "football_zombie": {
+    "name": "football_zombie",
+    "name_cn": "橄榄球僵尸",
+    "category": "special",
+    "health": 1400,
+    "damage": 50,
+    "speed": 0.6,
+    "attack_speed": 1.0,
+    "behavior": "run",
+    "special_ability": "高速冲锋，高血量",
+    "first_appearance_level": 20,
+    "description": "穿着橄榄球服的狂暴僵尸",
+    "color": "#8B0000",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_large"
+    ]
+  },
+  "yeti_zombie": {
+    "name": "yeti_zombie",
+    "name_cn": "雪人僵尸",
+    "category": "special",
+    "health": 600,
+    "damage": 50,
+    "speed": 0.4,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "出现一段时间后逃跑",
+    "first_appearance_level": 40,
+    "description": "稀有的雪人僵尸，击败获得大量奖励",
+    "color": "#F0FFFF",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "diamond",
+      "coin_large"
+    ]
+  },
+  "snorkel_zombie": {
+    "name": "snorkel_zombie",
+    "name_cn": "潜水僵尸",
+    "category": "aquatic",
+    "health": 200,
+    "damage": 25,
+    "speed": 0.4,
+    "attack_speed": 1.0,
+    "behavior": "swim",
+    "special_ability": "在水下躲避直线攻击",
+    "first_appearance_level": 12,
+    "description": "潜水躲避攻击，只在进食时露头",
+    "color": "#4682B4",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "dolphin_rider_zombie": {
+    "name": "dolphin_rider_zombie",
+    "name_cn": "海豚骑士僵尸",
+    "category": "aquatic",
+    "health": 350,
+    "damage": 25,
+    "speed": 0.8,
+    "attack_speed": 1.0,
+    "behavior": "jump",
+    "special_ability": "骑海豚快速移动并跳过植物",
+    "first_appearance_level": 16,
+    "description": "骑着海豚冲刺的僵尸",
+    "color": "#20B2AA",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "turtle_zombie": {
+    "name": "turtle_zombie",
+    "name_cn": "海龟僵尸",
+    "category": "aquatic",
+    "health": 800,
+    "damage": 25,
+    "speed": 0.2,
+    "attack_speed": 1.0,
+    "behavior": "swim",
+    "special_ability": "龟壳提供高防御",
+    "first_appearance_level": 18,
+    "description": "背着龟壳的水中坦克",
+    "color": "#556B2F",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "octo_zombie": {
+    "name": "octo_zombie",
+    "name_cn": "章鱼僵尸",
+    "category": "aquatic",
+    "health": 400,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "throw",
+    "special_ability": "投掷章鱼缠绕植物使其无法攻击",
+    "first_appearance_level": 28,
+    "description": "用章鱼困住植物",
+    "color": "#FF69B4",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "balloon_zombie": {
+    "name": "balloon_zombie",
+    "name_cn": "气球僵尸",
+    "category": "airborne",
+    "health": 150,
+    "damage": 25,
+    "speed": 0.5,
+    "attack_speed": 1.0,
+    "behavior": "fly",
+    "special_ability": "飞行越过大部分植物",
+    "first_appearance_level": 17,
+    "description": "乘着气球飞越防线",
+    "color": "#FFB6C1",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "bungee_zombie": {
+    "name": "bungee_zombie",
+    "name_cn": "飞贼僵尸",
+    "category": "airborne",
+    "health": 450,
+    "damage": 0,
+    "speed": 0,
+    "attack_speed": 0,
+    "behavior": "fly",
+    "special_ability": "从天而降偷走植物",
+    "first_appearance_level": 22,
+    "description": "偷取植物的空中威胁",
+    "color": "#000000",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": []
+  },
+  "glider_zombie": {
+    "name": "glider_zombie",
+    "name_cn": "滑翔机僵尸",
+    "category": "airborne",
+    "health": 300,
+    "damage": 25,
+    "speed": 0.6,
+    "attack_speed": 1.0,
+    "behavior": "fly",
+    "special_ability": "滑翔降落避开前排防御",
+    "first_appearance_level": 30,
+    "description": "驾驶滑翔机突袭",
+    "color": "#87CEEB",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "ladder_zombie": {
+    "name": "ladder_zombie",
+    "name_cn": "梯子僵尸",
+    "category": "special",
+    "health": 500,
+    "damage": 25,
+    "speed": 0.3,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "放置梯子让僵尸翻过高坚果",
+    "first_appearance_level": 25,
+    "description": "携带梯子跨越高墙",
+    "color": "#CD853F",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "digger_zombie": {
+    "name": "digger_zombie",
+    "name_cn": "矿工僵尸",
+    "category": "special",
+    "health": 300,
+    "damage": 25,
+    "speed": 0.2,
+    "attack_speed": 1.0,
+    "behavior": "dig",
+    "special_ability": "挖地道到后方出现",
+    "first_appearance_level": 24,
+    "description": "挖地偷袭后方植物",
+    "color": "#8B4513",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium",
+      "diamond"
+    ]
+  },
+  "catapult_zombie": {
+    "name": "catapult_zombie",
+    "name_cn": "投石车僵尸",
+    "category": "special",
+    "health": 600,
+    "damage": 50,
+    "speed": 0.25,
+    "attack_speed": 2.0,
+    "behavior": "throw",
+    "special_ability": "远程投掷篮球攻击植物",
+    "first_appearance_level": 26,
+    "description": "隔空打击植物防线",
+    "color": "#A52A2A",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_large"
+    ]
+  },
+  "zamboni_zombie": {
+    "name": "zamboni_zombie",
+    "name_cn": "冰车僵尸",
+    "category": "special",
+    "health": 800,
+    "damage": 100,
+    "speed": 0.4,
+    "attack_speed": 1.0,
+    "behavior": "drive",
+    "special_ability": "压扁植物并留下冰道",
+    "first_appearance_level": 27,
+    "description": "驾驶冰面清理车碾压一切",
+    "color": "#ADD8E6",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_large"
+    ]
+  },
+  "jack_in_the_box_zombie": {
+    "name": "jack_in_the_box_zombie",
+    "name_cn": "小丑僵尸",
+    "category": "special",
+    "health": 300,
+    "damage": 25,
+    "speed": 0.5,
+    "attack_speed": 1.0,
+    "behavior": "explode",
+    "special_ability": "随机自爆造成范围伤害",
+    "first_appearance_level": 21,
+    "description": "拿着炸弹箱子的疯狂小丑",
+    "color": "#FF1493",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "giga_gargantuar_imp": {
+    "name": "giga_gargantuar_imp",
+    "name_cn": "小鬼炮僵尸",
+    "category": "special",
+    "health": 400,
+    "damage": 25,
+    "speed": 0.2,
+    "attack_speed": 1.0,
+    "behavior": "throw",
+    "special_ability": "发射小鬼僵尸到后方",
+    "first_appearance_level": 35,
+    "description": "远程投掷小鬼偷袭",
+    "color": "#DC143C",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_medium"
+    ]
+  },
+  "imp_zombie": {
+    "name": "imp_zombie",
+    "name_cn": "小鬼僵尸",
+    "category": "normal",
+    "health": 150,
+    "damage": 25,
+    "speed": 0.5,
+    "attack_speed": 1.0,
+    "behavior": "walk",
+    "special_ability": "被伽刚特尔投掷到后方",
+    "first_appearance_level": 10,
+    "description": "小型快速僵尸",
+    "color": "#32CD32",
+    "size": [
+      50,
+      70
+    ],
+    "ice_resistance": 1.0,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 1.0,
+    "drops": [
+      "coin_small"
+    ]
+  },
+  "gargantuar": {
+    "name": "gargantuar",
+    "name_cn": "伽刚特尔",
+    "category": "boss",
+    "health": 3000,
+    "damage": 150,
+    "speed": 0.15,
+    "attack_speed": 2.0,
+    "behavior": "walk",
+    "special_ability": "砸扁植物，半血时投掷小鬼",
+    "first_appearance_level": 30,
+    "description": "巨型僵尸 boss，极其危险",
+    "color": "#2F4F4F",
+    "size": [
+      80,
+      120
+    ],
+    "ice_resistance": 0.8,
+    "fire_resistance": 0.8,
+    "explosion_resistance": 0.5,
+    "drops": [
+      "coin_huge"
+    ]
+  },
+  "ice_gargantuar": {
+    "name": "ice_gargantuar",
+    "name_cn": "冰车伽刚特尔",
+    "category": "boss",
+    "health": 3500,
+    "damage": 150,
+    "speed": 0.18,
+    "attack_speed": 2.0,
+    "behavior": "drive",
+    "special_ability": "驾驶冰车碾压，半血时投掷小鬼",
+    "first_appearance_level": 40,
+    "description": "强化版伽刚特尔",
+    "color": "#B0E0E6",
+    "size": [
+      80,
+      120
+    ],
+    "ice_resistance": 0.5,
+    "fire_resistance": 1.0,
+    "explosion_resistance": 0.5,
+    "drops": [
+      "coin_huge",
+      "diamond"
+    ]
+  },
+  "dr_zomboss": {
+    "name": "dr_zomboss",
+    "name_cn": "僵王博士",
+    "category": "boss",
+    "health": 20000,
+    "damage": 300,
+    "speed": 0.1,
+    "attack_speed": 5.0,
+    "behavior": "drive",
+    "special_ability": "驾驶机甲，释放多种技能",
+    "first_appearance_level": 50,
+    "description": "最终 BOSS，拥有毁灭性力量",
+    "color": "#4B0082",
+    "size": [
+      150,
+      200
+    ],
+    "ice_resistance": 0.3,
+    "fire_resistance": 0.3,
+    "explosion_resistance": 0.2,
+    "drops": [
+      "trophy"
+    ]
+  }
+}
