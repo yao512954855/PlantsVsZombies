@@ -1,17 +1,28 @@
 '''
 游戏主类，负责游戏的初始化和运行
+工业级重构版本 - 集成关卡系统、僵尸工厂、场景管理
 '''
 
 from data.src._BasicImports import *  # 导入所有需要的模块和常量
 from data.src._GameObjectImports import *  # 导入所有需要的类和函数
+from data.src.level_manager import level_manager, LevelConfig
+from data.src.zombie_factory import zombie_factory, ZombieSpawner
+from data.src.scene_manager import scene_manager, SceneType
+
 
 class Game:
-    def __init__(self, game): 
+    def __init__(self, game, level_config: LevelConfig = None): 
         """
         初始化游戏对象
-
+        
         :param game: 游戏主对象，包含游戏的基本信息和状态
+        :param level_config: 关卡配置，None 表示使用默认配置
         """
+        # 初始化关卡配置
+        self.level_config = level_config
+        if not self.level_config:
+            self.level_config = level_manager.get_current_level_config()
+        
         # 初始化地图，使用二维列表表示，0 表示该位置没有植物
         self.map = [
             [],
@@ -22,18 +33,30 @@ class Game:
             [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
         ]
         
-        # 初始化玩家拥有的金币数量
-        self.gold = 200
+        # 初始化玩家拥有的金币数量（从关卡配置获取）
+        self.gold = self.level_config.initial_gold if self.level_config else 200
+        self.sun = self.level_config.initial_sun if self.level_config else 150
         
         # 初始化游戏相关对象
         self.game = game
         self.screen = self.game.screen
-
+        
+        # 初始化场景
+        scene_type = self.level_config.scene_type if self.level_config else 'day'
+        scene_manager.set_scene(scene_type)
+        
         # 初始化游戏道具和状态变量
         self.shovel = Shovel(self.screen)  # 初始化铲子对象
         self.shovelFrame = ShovelFrame(self.screen)  # 初始化铲子框对象
-        self.zombieTime = 0  # 僵尸生成计时器
+        
+        # 初始化僵尸生成器
+        self.zombie_spawner = ZombieSpawner(self.game, self.level_config)
+        
+        # 游戏时间管理
+        self.game_time = 0  # 游戏运行时间（帧）
         self.sunlightTime = 0  # 阳光生成计时器
+        
+        # 音乐播放标记
         self.zombieMusicPlay = False  # 标记僵尸啃食音乐是否正在播放
 
         # 加载阳光音乐并设置音量
@@ -144,13 +167,68 @@ class Game:
     def run(self):
         """
         游戏主循环，负责游戏的运行和更新
+        工业级重构版本 - 集成场景特效渲染和关卡胜利条件检测
         """
         self.draw()  # 绘制游戏界面
+        
+        # 渲染场景特效
+        scene_manager.render(self.screen)
+        
         if self.game.really:  # 判断游戏是否正式开始
             self.RunTimeDetermine()  # 处理游戏正式运行时的信息
             self.update()  # 更新游戏状态
+            
+            # 检查关卡胜利条件
+            self._check_victory_condition()
         else:
             self.ChooseCardTimeDetermine()  # 处理选择卡片阶段的信息
+    
+    def _check_victory_condition(self):
+        """检查关卡胜利条件"""
+        if not self.level_config or self.game.gameover:
+            return
+        
+        # 生存模式：存活指定时间
+        if self.level_config.victory_condition == 'survive':
+            survive_frames = self.level_config.survive_time * DEFAULT_FPS
+            if self.game_time >= survive_frames:
+                self._level_complete()
+        
+        # 击杀模式：消灭指定数量僵尸
+        elif self.level_config.victory_condition == 'kill':
+            if self.zombie_spawner and self.zombie_spawner.total_spawned >= self.level_config.kill_zombie_count:
+                # 还需要检查屏幕上是否还有僵尸
+                if len(self.game.zombie_list) == 0:
+                    self._level_complete()
+    
+    def _level_complete(self):
+        """完成关卡"""
+        if not self.level_config:
+            return
+        
+        # 标记关卡完成
+        level_manager.complete_level(self.level_config.level_id)
+        
+        # 保存进度
+        level_manager.save_progress()
+        
+        # 触发关卡完成事件（后续可扩展显示胜利界面）
+        print(f"关卡 {self.level_config.level_id} 完成！")
+        
+        # 发放奖励
+        for reward in self.level_config.rewards:
+            self._process_reward(reward)
+    
+    def _process_reward(self, reward: str):
+        """处理关卡奖励"""
+        if reward.startswith('gold_reward:'):
+            amount = int(reward.split(':')[1])
+            self.gold += amount
+            print(f"获得金币奖励：{amount}")
+        elif reward.startswith('unlock_new_plant:'):
+            plant_name = reward.split(':')[1]
+            print(f"解锁新植物：{plant_name}")
+            # 后续可扩展植物解锁系统
 
     def draw(self): 
         """
@@ -162,16 +240,24 @@ class Game:
     def update(self): 
         """
         更新游戏状态，包括僵尸和阳光的生成，以及鼠标操作处理
+        工业级重构版本 - 使用僵尸生成器替代原有的简单计时器
         """
-        # 更新僵尸生成计时器
-        self.zombieTime = (self.zombieTime + 1) % ZOMBIE_TIME
-        # 更新阳光生成计时器
-        self.sunlightTime = (self.sunlightTime + 1) % SUNLIGHT_TIME
-        # 判断是否到了生成僵尸的时间
-        if self.zombieTime == 0: 
-            zombie_type = ChooseZombieType()  # 随机选择僵尸类型
-            self.game.zombie_list.append(Zombie(self.game, zombie_type))  # 添加新的僵尸到僵尸列表中
-        # 判断是否到了生成阳光的时间
+        # 更新游戏时间
+        self.game_time += 1
+        
+        # 使用僵尸生成器管理僵尸生成（波次模式或常规模式）
+        if self.zombie_spawner:
+            self.zombie_spawner.update()
+        
+        # 阳光生成逻辑（根据场景配置调整）
+        scene = scene_manager.get_current_scene()
+        sun_rate = scene.falling_sun_rate if scene else SUNLIGHT_TIME
+        
+        # 检查关卡配置中的特殊事件
+        if self.level_config and 'falling_sun_rare' in self.level_config.special_events:
+            sun_rate = int(sun_rate * 1.5)  # 阳光更稀有
+        
+        self.sunlightTime = (self.sunlightTime + 1) % sun_rate
         if self.sunlightTime == 0: 
             self.game.sunlight_list.append(Sunlight(self.screen, (random.randint(GRID_LEFT_X, GRID_RIGHT_X), 0)))
         
@@ -254,7 +340,7 @@ class Game:
                         # 检查已选卡片数量是否超过最大选择数量
                         if len(self.game.selectedCard) >= MAX_CHOOSE_CARD_NUMBER:
                             # 提示用户已选满最大选择数量的卡片
-                            self.game.GameSetWindow.Error("错误", f"已选满{MAX_CHOOSE_CARD_NUMBER}卡片")
+                            self.game._show_error("错误", f"已选满{MAX_CHOOSE_CARD_NUMBER}卡片")
                             break  # 跳出循环，不继续处理其他卡片
 
                         card.use = True  # 标记卡片为已使用

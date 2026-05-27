@@ -1,6 +1,9 @@
 from data.src._BasicImports import *  # 导入基本的模块和常量
 from data.src._GameObjectImports import * # 导入各个游戏对象的类
 from data.src.Game import *  # 导入游戏处理核心
+import tkinter as tk
+from tkinter import messagebox
+
 # 定义游戏类
 class Pvz:
     def __init__(self): # 初始化游戏
@@ -14,22 +17,27 @@ class Pvz:
             CHOOSE_CARD_FRAME_CARD_X.append(CHOOSE_CARD_FRAME_LEFT_X + (i - 1) * (CHOOSE_CARD_FRAME_CARD_SIZE[0] + CHOOSE_CARD_FRAME_CARD_X_SPACING))
         for i in range(1, CHOOSE_CARD_FRAME_CARD_COUNT[1] + 1):
             CHOOSE_CARD_FRAME_CARD_Y.append(CHOOSE_CARD_FRAME_TOP_Y + (i - 1) * (CHOOSE_CARD_FRAME_CARD_SIZE[1] + CHOOSE_CARD_FRAME_CARD_Y_SPACING))
-        self.login = ""  # 初始化登录状态为空字符串
 
-    def start(self, game, GameSetWindow): # 游戏开始界面
+    def _show_error(self, title: str, message: str):
+        """显示错误提示框"""
+        root = tk.Tk()
+        root.withdraw()
+        messagebox.showerror(title, message)
+        root.destroy()
+
+    def start(self): # 游戏开始界面
         pygame.init()  # 初始化pygame
         self.screen = pygame.display.set_mode(GAME_SIZE)  # 设置游戏窗口
         pygame.display.set_caption(GAME_TITLE + "V" + GAME_VERSION)  # 设置游戏窗口标题
         self.FPS = DEFAULT_FPS  # 设置游戏帧率
         self.clock = pygame.time.Clock()  # 设置时钟
-        self.game = Game(game)  # 创建游戏处理核心实例
-        self.ObjectGame = game  # 保存游戏对象实例
+        self.game = Game(self)  # 创建游戏处理核心实例
+        self.ObjectGame = self  # 保存游戏对象实例
     
         self.loading_music()  # 加载音乐
         self.initialize_list()  # 初始化列表
         self.initialize_instance()  # 初始化实例
 
-        self.GameSetWindow = GameSetWindow  # 保存游戏设置窗口实例
 
         self.startTime = 0
         # 播放音乐
@@ -54,7 +62,7 @@ class Pvz:
             pygame.display.flip()  # 更新屏幕
             self.clock.tick(self.FPS)  # 设置帧率
 
-    def chooseCard(self): # 选择卡片
+    def choose_card(self): # 选择卡片
         self.startMusic.stop()  # 停止开始音乐
         self.gameMusic.play(-1)  # -1 表示无限循环
         self.selectedCard = [] # 创建一个空列表来存储选中的卡片
@@ -298,49 +306,6 @@ class Pvz:
         self.spikeweed_list = []  # 地刺列表
         self.lawnmowerIf = [0, 0, 0, 0, 0, 0]  # 草坪机是否已出现列表
     
-    def SetWindowAtTheTop(self): # 设置窗口置顶
-        import ctypes
-        from ctypes import wintypes
-
-        # 定位ctypes中的user32
-        user32 = ctypes.WinDLL('user32', use_last_error=True)
-
-        # 定义SetWindowPos函数
-        SetWindowPos = user32.SetWindowPos
-        SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND, wintypes.INT, wintypes.INT, wintypes.INT, wintypes.INT, wintypes.UINT]
-        SetWindowPos.restype = wintypes.BOOL
-
-        def set_window_topmost(hwnd):
-            # HWND_TOPMOST是特殊的标志，表示窗口应该置于所有非顶置窗口之上
-            HWND_TOPMOST = -1
-            # 设置窗口为始终在最前面
-            SetWindowPos(hwnd, HWND_TOPMOST, 0, 0, 0, 0, 0x0001)  # 0x0001 是SWP_NOMOVE | SWP_NOSIZE，意味着不改变位置和大小
-        
-        # 获取Pygame窗口的HWND
-        pygame_hwnd = pygame.display.get_wm_info()['window']
-        set_window_topmost(pygame_hwnd) # 设置窗口为最前面
-
-    def CancelWindowAtTheTop(self): # 取消窗口置顶
-        import ctypes
-        from ctypes import wintypes
-
-        # 定位ctypes中的user32
-        user32 = ctypes.WinDLL('user32', use_last_error=True)
-
-        # 定义SetWindowPos函数
-        SetWindowPos = user32.SetWindowPos
-        SetWindowPos.argtypes = [wintypes.HWND, wintypes.HWND, wintypes.INT, wintypes.INT, wintypes.INT, wintypes.INT, wintypes.UINT]
-        SetWindowPos.restype = wintypes.BOOL
-
-        def cancel_window_topmost(hwnd):
-            # HWND_NOTOPMOST是特殊的标志，表示窗口不再置于所有非顶置窗口之上
-            HWND_NOTOPMOST = -2
-            # 取消窗口的始终在最前面状态
-            SetWindowPos(hwnd, HWND_NOTOPMOST, 0, 0, 0, 0, 0x0001)
-
-        # 获取Pygame窗口的HWND
-        pygame_hwnd = pygame.display.get_wm_info()['window'] 
-        cancel_window_topmost(pygame_hwnd)  # 取消窗口的最前面状态
 
     def initialize_instance(self):  # 初始化实例
         self.background = Background(self.screen)  # 创建背景实例

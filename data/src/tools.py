@@ -141,21 +141,21 @@ def CheckInGarden(pos):
     # 检查y坐标是否在花园上下边界之间
     return pos[0] > GRID_LEFT_X and pos[0] < GRID_RIGHT_X and pos[1] > GRID_TOP_Y and pos[1] < GRID_DOWN_Y
 
-def ChooseZombieType():
+def ChooseZombieType(scene: str = 'day'):
     """
-    随机选择僵尸类型
+    随机选择僵尸类型（兼容旧版调用）
+    :param scene: 场景类型
     :return: 返回一个随机选择的僵尸类型
     """
-    # 导入random模块，用于生成随机数
+    # 使用新的僵尸工厂系统
+    from data.src.zombie_factory import zombie_factory
+    
+    available_types = list(settings["game"]["zombieType"])
+    weights = []
+    for zt in available_types:
+        weight = settings["game"]["zombieChooseProbability"].get(zt, 100)
+        weights.append(weight)
+    
     import random
-    # 初始化随机数生成器，使用系统默认的种子（通常基于当前时间）
-    random.seed()
-    # 生成一个1到100之间的随机整数，用于后续的概率判断
-    randNumber = random.randint(1, 100)
-    # 遍历游戏设置中定义的所有僵尸类型
-    for zombieType in settings["game"]["zombieType"]:
-        # 从游戏设置中获取当前僵尸类型被选中的概率
-        # 若生成的随机数小于等于该概率值，则表示选中该僵尸类型
-        if randNumber <= settings["game"]["zombieChooseProbability"][zombieType]:
-            # 返回当前被选中的僵尸类型
-            return zombieType
+    chosen_type = random.choices(available_types, weights=weights, k=1)[0]
+    return chosen_type
