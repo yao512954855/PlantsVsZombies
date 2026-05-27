@@ -31,6 +31,6 @@ class ReallyButton(Object):
                 self.really = True
                 self.click = True
             else:
-                self.game.GameSetWindow.Error("错误", "请至少选择一张卡片")
+                print("错误：请至少选择一张卡片")
         if self.really:
             self.draw()

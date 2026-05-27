@@ -14,9 +14,8 @@ class Pvz:
             CHOOSE_CARD_FRAME_CARD_X.append(CHOOSE_CARD_FRAME_LEFT_X + (i - 1) * (CHOOSE_CARD_FRAME_CARD_SIZE[0] + CHOOSE_CARD_FRAME_CARD_X_SPACING))
         for i in range(1, CHOOSE_CARD_FRAME_CARD_COUNT[1] + 1):
             CHOOSE_CARD_FRAME_CARD_Y.append(CHOOSE_CARD_FRAME_TOP_Y + (i - 1) * (CHOOSE_CARD_FRAME_CARD_SIZE[1] + CHOOSE_CARD_FRAME_CARD_Y_SPACING))
-        self.login = ""  # 初始化登录状态为空字符串
 
-    def start(self, game, GameSetWindow): # 游戏开始界面
+    def start(self, game): # 游戏开始界面
         pygame.init()  # 初始化pygame
         self.screen = pygame.display.set_mode(GAME_SIZE)  # 设置游戏窗口
         pygame.display.set_caption(GAME_TITLE + "V" + GAME_VERSION)  # 设置游戏窗口标题
@@ -29,7 +28,6 @@ class Pvz:
         self.initialize_list()  # 初始化列表
         self.initialize_instance()  # 初始化实例
 
-        self.GameSetWindow = GameSetWindow  # 保存游戏设置窗口实例
 
         self.startTime = 0
         # 播放音乐
@@ -54,7 +52,7 @@ class Pvz:
             pygame.display.flip()  # 更新屏幕
             self.clock.tick(self.FPS)  # 设置帧率
 
-    def chooseCard(self): # 选择卡片
+    def choose_card(self): # 选择卡片
         self.startMusic.stop()  # 停止开始音乐
         self.gameMusic.play(-1)  # -1 表示无限循环
         self.selectedCard = [] # 创建一个空列表来存储选中的卡片

@@ -254,7 +254,7 @@ class Game:
                         # 检查已选卡片数量是否超过最大选择数量
                         if len(self.game.selectedCard) >= MAX_CHOOSE_CARD_NUMBER:
                             # 提示用户已选满最大选择数量的卡片
-                            self.game.GameSetWindow.Error("错误", f"已选满{MAX_CHOOSE_CARD_NUMBER}卡片")
+                            print(f"错误：已选满{MAX_CHOOSE_CARD_NUMBER}卡片")
                             break  # 跳出循环，不继续处理其他卡片
 
                         card.use = True  # 标记卡片为已使用
