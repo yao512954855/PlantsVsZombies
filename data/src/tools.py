@@ -1,7 +1,12 @@
 # 导入必要的模块和常量
 from data.src.const import *  # 导入游戏常量配置
 from data.src.settings import *  # 导入游戏设置配置
+from typing import Optional, List, Tuple, Any  # 类型注解
 import math  # 导入数学计算库
+
+# ============================================================================
+# 基础工具函数 (原有功能)
+# ============================================================================
 
 def click(thingPos, thingSize, mousePos):
     """
@@ -159,3 +164,199 @@ def ChooseZombieType():
         if randNumber <= settings["game"]["zombieChooseProbability"][zombieType]:
             # 返回当前被选中的僵尸类型
             return zombieType
+
+# ============================================================================
+# 场景感知工具函数 (第二阶段新增)
+# ============================================================================
+
+def get_scene_aware_spawn_position(
+    scene_type: str,
+    row: int
+) -> Tuple[int, int]:
+    """
+    根据场景类型获取僵尸生成位置
+    
+    :param scene_type: 场景类型 ('day', 'night', 'roof', 'pool', 'fog')
+    :param row: 行号 (1-5)
+    :return: (x, y) 生成坐标
+    """
+    base_x = GRID_RIGHT_X + 50
+    base_y = GRID_Y[row] if row <= len(GRID_Y) else GRID_TOP_Y
+    
+    # 屋顶场景需要调整 Y 坐标 (斜坡效果)
+    if scene_type == 'roof':
+        slope_offset = (row - 1) * 20
+        base_y -= slope_offset
+    
+    return (base_x, base_y)
+
+
+def is_plantable_position(
+    grid: List[int],
+    plant_type: str,
+    scene_type: str,
+    game_map: List[List[Any]]
+) -> bool:
+    """
+    检查位置是否可种植植物 (考虑场景限制)
+    
+    :param grid: 网格坐标 [col, row]
+    :param plant_type: 植物类型
+    :param scene_type: 场景类型
+    :param game_map: 游戏地图
+    :return: 是否可种植
+    """
+    col, row = grid[0], grid[1]
+    
+    # 检查边界
+    if row < 1 or row > GRID_COUNT[1] or col < 1 or col > GRID_COUNT[0]:
+        return False
+    
+    # 检查该位置是否已有植物
+    if game_map[row][col] != 0:
+        return False
+    
+    # 屋顶场景需要花盆 (除了花盆本身)
+    if scene_type == 'roof' and plant_type not in ['flower_pot']:
+        # 检查是否有花盆
+        if not _has_flower_pot_at(grid, game_map):
+            return False
+    
+    # 泳池场景需要睡莲 (除了睡莲和水生植物)
+    if scene_type in ['pool', 'fog']:
+        water_rows = [2, 3]  # 中间两行是水
+        if row in water_rows and plant_type not in ['lily_pad', 'tangle_kelp', 'sea_shroom']:
+            # 检查是否有睡莲
+            if not _has_lily_pad_at(grid, game_map):
+                return False
+    
+    return True
+
+
+def _has_flower_pot_at(
+    grid: List[int],
+    game_map: List[List[Any]]
+) -> bool:
+    """检查指定位置是否有花盆"""
+    col, row = grid[0], grid[1]
+    return game_map[row][col] == 'flower_pot'
+
+
+def _has_lily_pad_at(
+    grid: List[int],
+    game_map: List[List[Any]]
+) -> bool:
+    """检查指定位置是否有睡莲"""
+    col, row = grid[0], grid[1]
+    return game_map[row][col] == 'lily_pad'
+
+
+def get_available_plants_for_level(
+    level_id: int,
+    scene_type: str
+) -> List[str]:
+    """
+    根据关卡 ID 和场景类型获取可用植物列表
+    
+    :param level_id: 关卡 ID (1-50)
+    :param scene_type: 场景类型
+    :return: 可用植物类型列表
+    """
+    # 基础植物 (所有关卡可用)
+    available = ['peashooter', 'sunflower', 'cherry_bomb', 'wall_nut']
+    
+    # 根据关卡进度解锁植物
+    unlock_schedule = {
+        5: ['potato_mine', 'snow_pea'],
+        10: ['chomper', 'repeater'],
+        15: ['puff_shroom', 'sun_shroom', 'fume_shroom'],
+        20: ['grave_buster', 'hypno_shroom'],
+        25: ['flower_pot', 'threepeater'],
+        30: ['split_pea', 'starfruit'],
+        35: ['lily_pad', 'tangle_kelp'],
+        40: ['jalapeno', 'spikeweed'],
+        45: ['torchwood', 'tall_nut'],
+        50: ['sea_shroom', 'plantern'],
+    }
+    
+    for unlock_level, plants in unlock_schedule.items():
+        if level_id >= unlock_level:
+            available.extend(plants)
+    
+    # 根据场景类型过滤植物
+    scene_specific_requirements = {
+        'roof': ['flower_pot'],  # 屋顶必须解锁花盆
+        'pool': ['lily_pad'],    # 泳池必须解锁睡莲
+        'fog': ['lily_pad', 'plantern'],  # 迷雾需要睡莲和三叶草
+    }
+    
+    if scene_type in scene_specific_requirements:
+        required = scene_specific_requirements[scene_type]
+        # 如果场景需要的植物还没解锁，则限制可用植物
+        for req_plant in required:
+            if req_plant not in available:
+                # 场景需要的植物未解锁，提供最低限度的替代方案
+                pass
+    
+    return list(set(available))  # 去重
+
+
+def calculate_zombie_spawn_rate(
+    current_wave: int,
+    total_waves: int,
+    difficulty: int
+) -> float:
+    """
+    计算僵尸生成速率
+    
+    :param current_wave: 当前波次
+    :param total_waves: 总波次
+    :param difficulty: 难度等级 (1-10)
+    :return: 生成间隔 (秒)
+    """
+    # 基础间隔随波次减少
+    base_min = max(0.5, 3.0 - current_wave * 0.2)
+    base_max = max(1.0, 5.0 - current_wave * 0.3)
+    
+    # 难度影响
+    difficulty_factor = 1.0 - (difficulty - 1) * 0.03
+    
+    min_interval = base_min * difficulty_factor
+    max_interval = base_max * difficulty_factor
+    
+    import random
+    return random.uniform(min_interval, max_interval)
+
+
+def get_scene_background_color(scene_type: str) -> Tuple[int, int, int]:
+    """
+    获取场景背景颜色
+    
+    :param scene_type: 场景类型
+    :return: RGB 颜色值
+    """
+    colors = {
+        'day': (135, 206, 235),      # 天空蓝
+        'night': (25, 25, 112),      # 午夜蓝
+        'roof': (135, 206, 235),     # 天空蓝
+        'pool': (135, 206, 235),     # 天空蓝
+        'fog': (70, 70, 90),         # 灰蓝色
+    }
+    return colors.get(scene_type.lower(), (135, 206, 235))
+
+
+def get_scene_ambient_light(scene_type: str) -> float:
+    """
+    获取场景环境亮度
+    
+    :param scene_type: 场景类型
+    :return: 亮度值 (0.0-1.0)
+    """
+    light_levels = {
+        'day': 1.0,
+        'night': 0.4,
+        'roof': 0.9,
+        'pool': 1.0,
+        'fog': 0.5,
+    }
+    return light_levels.get(scene_type.lower(), 1.0)
